@@ -39,9 +39,42 @@
         survey_enabled: true
         survey_spec: "{{ lookup('template', playbook_dir + '/templates/survey.j2') | from_yaml  }}"
 
-    - name: Add Job Template 1 node
+    - name: Add Generation Playbook Step
       ansible.controller.workflow_job_template_node:
         workflow_job_template: "Remediation Workflow"
-        identifier: "job-template-1"
+        identifier: "Generate Remediation Playbook"
         unified_job_template: "🧠 Lightspeed Remediation Playbook Generator"
         state: present
+
+    - name: Add Git Commit Step
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "Commit Proposed Fix to Git"
+        unified_job_template: "Commit Fix to Gitea"
+        state: present
+
+    - name: Link Generation to Commit
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "Generate Remediation Playbook"
+        success_nodes:
+          - "Commit Proposed Fix to Git"
+        state: present
+
+    - name: Add Project Sync step
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "Project Sync"
+        unified_job_template: "Lightspeed-Playbooks"  # Must be the name of the Project resource
+        state: present
+      register: project_sync_node
+      
+    - name: Link Commit to Sync
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "Commit Proposed Fix to Git"
+        success_nodes:
+          - "Project Sync"
+        state: present
+
+      
