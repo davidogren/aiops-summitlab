@@ -38,3 +38,10 @@
         state: present
         survey_enabled: true
         survey_spec: "{{ lookup('template', playbook_dir + '/templates/survey.j2') | from_yaml  }}"
+
+    - name: Add Job Template 1 node
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "job-template-1"
+        unified_job_template: "🧠 Lightspeed Remediation Playbook Generator"
+        state: present
