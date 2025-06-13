@@ -8,7 +8,7 @@
       ansible.controller.job_template:
         name: "🔧✅ Execute HTTPD Remediation"
         state: absent
-\    - name: Create Job Template
+    - name: Create Job Template
       ansible.controller.job_template:
         name: "🔧✅ Execute HTTPD Remediation"
         job_type: "run"
