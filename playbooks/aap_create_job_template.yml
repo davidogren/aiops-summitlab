@@ -25,7 +25,13 @@
         validate_certs: true
         execution_environment: "Default execution environment"
 
-    - name: Load remediation workflow template
+    - name: Delete old workflow template
+      ansible.controller.workflow_job_template:
+        name: Remediation Workflow
+        organization: Default
+        state: absent
+
+    - name: Create remediation workflow template
       ansible.controller.workflow_job_template:
         name: Remediation Workflow
         organization: Default
