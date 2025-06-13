@@ -15,5 +15,5 @@
         validate_certs: true
         execution_environment: "Default execution environment"
         become_enabled: true
-        ask_limit_on_launch: true
+        ask_limit_on_launch: false
 
