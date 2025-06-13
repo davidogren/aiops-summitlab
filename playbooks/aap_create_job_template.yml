@@ -77,4 +77,20 @@
           - "Project Sync"
         state: present
 
+    - name: Add Build Remediation
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "Build Execution Wrapper"
+        unified_job_template: "⚙️ Build HTTPD Remediation Template"
+        state: present
+
+    - name: Link Remediate to Sync
+      ansible.controller.workflow_job_template_node:
+        workflow_job_template: "Remediation Workflow"
+        identifier: "Commit Proposed Fix to Git"
+        success_nodes:
+          - "Build Execution Wrapper"
+        state: present
+
+
       
